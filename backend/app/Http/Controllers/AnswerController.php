@@ -39,7 +39,7 @@ class AnswerController extends Controller
         $request->validated($request->all());
         $user = Auth::user();
 
-        $article = Answer::create([
+        $answer = Answer::create([
             'assignation_id' => $request->assignation_id,
             'description' => $request->description,
             'name' => $user->firstname  . ' ' . $user->firstname,
@@ -50,10 +50,10 @@ class AnswerController extends Controller
         $assignation = Assignation::where('id',$request->assignation_id)->first();
         $assignation->update(['state' => 'evaluate']);
 
-        if(!isset($article)) {
+        if(!isset($answer)) {
             return $this->error(null,'Failed to save the request.',400);
         } else {
-            return $this->success($article,'New request saved.',200);
+            return $this->success($answer,'New request saved.',200);
         }
     }
 
@@ -92,7 +92,7 @@ class AnswerController extends Controller
         $requestM->update(['status' => 'done']);
         $assignation->update(['state' => 'complete']);
 
-        return $this->success($answer, 'Answer has been successfully updated.', 400);
+        return $this->success($answer, 'Answer has been successfully updated.', 200);
     }
 
 }
