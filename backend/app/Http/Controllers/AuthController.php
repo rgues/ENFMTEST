@@ -2,7 +2,6 @@
 
     namespace App\Http\Controllers;
     
-    use Illuminate\Http\Request;
     use App\Traits\HttpResponses;
     use App\Http\Requests\StoreUserRequest;
     use App\Http\Requests\LoginUserRequest;

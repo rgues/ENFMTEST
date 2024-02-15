@@ -66,7 +66,7 @@ class RequestsController extends Controller
 
         $request = Request::find($id);
         
-        return $this->success(['request' => $request, 'response' =>  $request->answers], 200);
+        return $this->success(['request' => $request, 'answers' =>  $request->answers], 200);
     }
 
 }
