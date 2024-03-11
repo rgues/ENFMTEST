@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\HttpResponses;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,8 +16,15 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::where('role_id',3)->get();
-        return $this->success($users,'IT users', 200);
+
+        $user = Auth::user();
+        if ($user->role_id === 1) {
+            $users = User::where('role_id','!=',2)->get();
+        } else {
+            $users = User::all();
+        }
+        
+        return $this->success($users,'List users', 200);
     }
 
     /**

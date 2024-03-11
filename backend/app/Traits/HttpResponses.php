@@ -7,7 +7,6 @@ namespace App\Traits;
  */
 trait HttpResponses
 {
-
     /**
      *  return the success of http resquest
      */

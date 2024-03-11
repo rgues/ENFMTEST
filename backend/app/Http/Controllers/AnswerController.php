@@ -9,6 +9,7 @@ use App\Models\Answer;
 use App\Models\Assignation;
 use App\Models\Request as RequestModel;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class AnswerController extends Controller
@@ -21,11 +22,20 @@ class AnswerController extends Controller
     {
         $user = Auth::user();
         $answers = [];
-
+       
         if ($user->role_id === 2) {
             $answers = Answer::where('state','in_approval')->get();
         } else if ($user->role_id === 3) {
-            $answers = Answer::all();
+           
+            $assignation = Assignation::where('user_id',$user->id)->get();
+            $answersList = Answer::all()->all();
+
+            foreach($assignation as $item ) {
+                $answers = Arr::where($answersList, function ($value, $key) use($item) {
+                    return $value['assignation_id'] == $item->id;
+                });
+            }
+           
         }
     
         return $this->success($answers,'All Answers', 200);
@@ -42,7 +52,7 @@ class AnswerController extends Controller
         $answer = Answer::create([
             'assignation_id' => $request->assignation_id,
             'description' => $request->description,
-            'name' => $user->firstname  . ' ' . $user->firstname,
+            'name' => $user->firstname  . ' ' . $user->lastname,
             'state' => 'in_approval',
             'date_answer' => Carbon::now()
         ]);

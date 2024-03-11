@@ -21,7 +21,7 @@ class AssignationController extends Controller
         $user = Auth::user();
         if ($user->role_id === 3) {
             $assignation = Assignation::where('user_id', $user->id)->get();
-        } else if ($user->role_id === 2) {
+        } else if ($user->role_id === 2 || $user->role_id === 1) {
             $assignation = Assignation::all();
         }
         return $this->success($assignation,'All requests assignations', 200);
